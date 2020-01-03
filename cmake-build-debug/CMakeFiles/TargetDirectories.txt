@@ -1,0 +1,3 @@
+/Users/mohammad.fakhreddin/CLionProjects/perspective_camera_open_gl/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/mohammad.fakhreddin/CLionProjects/perspective_camera_open_gl/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/mohammad.fakhreddin/CLionProjects/perspective_camera_open_gl/cmake-build-debug/CMakeFiles/perspective_camera_open_gl.dir
