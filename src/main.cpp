@@ -1,8 +1,6 @@
 
 #define GL_SILENCE_DEPRECATION
 
-#include <SFML/Window/Window.hpp>
-#include <SFML/OpenGL.hpp>
 #ifdef __APPLE__
 /* Defined before OpenGL and GLUT includes to avoid deprecation messages */
 #include <GLUT/glut.h>
@@ -36,8 +34,8 @@ void mainLoop() {
 
 /* Main function: GLUT runs as a console application starting at main()  */
 int main(int argc, char** argv) {
-    Constants::System::RealScreenWidth = sf::VideoMode::getDesktopMode().width;
-    Constants::System::RealScreenHeight = sf::VideoMode::getDesktopMode().height;
+    // Constants::System::RealScreenWidth = sf::VideoMode::getDesktopMode().width;
+    // Constants::System::RealScreenHeight = sf::VideoMode::getDesktopMode().height;
 
     glutInit(&argc,argv);
     glutInitDisplayMode ( GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);
