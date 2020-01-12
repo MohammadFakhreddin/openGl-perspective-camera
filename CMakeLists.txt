@@ -6,7 +6,22 @@ project(perspective_camera_open_gl)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(${PROJECT_NAME} src/main.cpp src/Constants.h)
+FILE(GLOB_RECURSE USER_HEADER "src/.h")
+FILE(GLOB_RECURSE USER_CPP "src/*.cpp")
+
+set(APP_SOURCE)
+set(APP_HEADER)
+
+list(APPEND APP_SOURCE
+   ${USER_CPP}
+)
+
+list(
+    APPEND APP_HEADER
+   ${USER_HEADER}
+)
+
+add_executable(${PROJECT_NAME} ${APP_HEADER} ${APP_SOURCE})
 
 include_directories( ${OPENGL_INCLUDE_DIRS} )
 
