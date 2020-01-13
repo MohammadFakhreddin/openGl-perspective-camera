@@ -19,6 +19,26 @@ float Camera::getScaleValue() const
 	return scaleValue;
 }
 
+void Camera::addTransformX(float value)
+{
+	transformValue.setX(transformValue.getX() + value);
+}
+
+void Camera::addTransformY(float value)
+{
+	transformValue.setY(transformValue.getY() + value);
+}
+
+void Camera::addRotation(float value)
+{
+	rotationValue += value;
+}
+
+void Camera::addScale(float value)
+{
+	scaleValue += value;
+}
+
 Camera::Camera()
 	: Camera(shapes)
 {
@@ -66,7 +86,7 @@ void Camera::render() {
 				y *= totalScaleValue;
 				x += totalTransformValueX;
 				y += totalTransformValueY;
-				glVertex3f(vertix.getX(), vertix.getY(), 0.0f);
+				glVertex3f(x, y, 0.0f);
 			}
 			glEnd();
 		}

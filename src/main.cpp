@@ -21,6 +21,12 @@ void mainLoop() {
     render();
 }
 
+void timer(int value)
+{
+	glutTimerFunc(16, timer, 0);
+	glutPostRedisplay();
+}
+
 /* Main function: GLUT runs as a console application starting at main()  */
 int main(int argc, char** argv) {
 	glutInit(&argc,argv);
@@ -42,6 +48,7 @@ int main(int argc, char** argv) {
     glViewport(0,0,Constants::Window::screenWidth,Constants::Window::screenHeight);
     glOrtho(0.0, Constants::Window::screenWidth, 0.0, Constants::Window::screenHeight, -1.0, 1.0);
 	application = std::make_unique<Application>();
+	glutTimerFunc(0, timer, 0);
 	glutDisplayFunc(mainLoop);
     glutMainLoop();
     return 0;

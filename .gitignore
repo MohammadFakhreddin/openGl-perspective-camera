@@ -55,3 +55,4 @@ Win32/*
 Win32
 Makefile
 *.cbp
+settings.json
