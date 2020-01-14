@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "../Constants.h"
 
 float Camera::getTransformX() const
 {
@@ -19,14 +20,14 @@ float Camera::getScaleValue() const
 	return scaleValue;
 }
 
-void Camera::addTransformX(float value)
+void Camera::addTransform(float valueX,float valueY)
 {
-	transformValue.setX(transformValue.getX() + value);
-}
-
-void Camera::addTransformY(float value)
-{
-	transformValue.setY(transformValue.getY() + value);
+	const auto sinValue = sin(-1 * rotationValue);
+	const auto cosValue = cos(-1 * rotationValue);
+	const float cameraTransformX = valueX * cosValue - valueY * sinValue;
+	const float cameraTransformY = valueX * sinValue + valueY * cosValue;
+	transformValue.setX(transformValue.getX() + cameraTransformX);
+	transformValue.setY(transformValue.getY() + cameraTransformY);
 }
 
 void Camera::addRotation(float value)
@@ -60,13 +61,14 @@ Camera::Camera(std::vector<BaseShape> shapes, float transformX, float transformY
 
 void Camera::render() {
 	if (shapes.size() > 0) {
-		float x;
-		float y;
-		float sinValue;
-		float cosValue;
-		float totalScaleValue;
-		float totalTransformValueX;
-		float totalTransformValueY;
+		float localX;
+		float localY;
+		float globalX;
+		float globalY;
+		float shapeLocalRotationSinValue;
+		float shapeLocalRotationCosValue;
+		float shapeGlobalRotationSinValue = sin(double(rotationValue));
+		float shapeGlobalRotationCosValue = cos(double(rotationValue));
 		for (auto shape : shapes) {
 			glBegin(GL_POLYGON);
 			glColor3f(
@@ -74,19 +76,22 @@ void Camera::render() {
 				shape.getColor().getY() / 255.0f, 
 				shape.getColor().getZ() / 255.0f
 			);
-			sinValue = sin(double(shape.getRotationValue()) + double(rotationValue));
-			cosValue = cos(double(shape.getRotationValue()) + double(rotationValue));
-			totalScaleValue = scaleValue + shape.getScaleValue();
-			totalTransformValueX = transformValue.getX() + shape.getTransform().getX();
-			totalTransformValueY = transformValue.getY() + shape.getTransform().getY();
+			shapeLocalRotationSinValue = sin(double(shape.getRotationValue()));
+			shapeLocalRotationCosValue = cos(double(shape.getRotationValue()));
 			for (auto vertix : shape.getOriginalShape()) {
-				x = vertix.getX() * cosValue - vertix.getY() * sinValue;
-				y = vertix.getX() * sinValue + vertix.getY() * cosValue;
-				x *= totalScaleValue;
-				y *= totalScaleValue;
-				x += totalTransformValueX;
-				y += totalTransformValueY;
-				glVertex3f(x, y, 0.0f);
+				localX = vertix.getX() * shapeLocalRotationCosValue - vertix.getY() * shapeLocalRotationSinValue;
+				localY = vertix.getX() * shapeLocalRotationSinValue + vertix.getY() * shapeLocalRotationCosValue;
+				localX *= shape.getScaleValue();
+				localY *= shape.getScaleValue();
+				localX += shape.getTransform().getX() - (Constants::Window::screenWidth / 2) - transformValue.getX();
+				localY += shape.getTransform().getY() - (Constants::Window::screenHeight / 2) - transformValue.getY();
+				globalX = (localX * shapeGlobalRotationCosValue - localY * shapeGlobalRotationSinValue);
+				globalY = (localX * shapeGlobalRotationSinValue + localY * shapeGlobalRotationCosValue);
+				globalX *= scaleValue;
+				globalY *= scaleValue;
+				globalX += (Constants::Window::screenWidth / 2);
+				globalY += (Constants::Window::screenHeight / 2);
+				glVertex3f(globalX, globalY, 0.0f);
 			}
 			glEnd();
 		}

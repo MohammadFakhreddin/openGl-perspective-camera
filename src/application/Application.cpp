@@ -3,7 +3,7 @@
 #include <memory>
 #include "../Constants.h"
 
-std::unique_ptr<Application> Application::instance;
+Application* Application::instance;
 
 void handleKeyboardEvent(unsigned char key, int x, int y)
 {
@@ -37,11 +37,37 @@ void handleKeyboardEvent(unsigned char key, int x, int y)
 }
 
 Application::Application() {
-	instance = std::unique_ptr<Application>(this);
+	instance = this;
 
 	std::vector<BaseShape> shapes;
-	BaseShape a(ShapeGenerator::gear(100, 10),0,0,1,0,Vec3DFloat(255,0,0));
-	shapes.emplace_back(a);
+	{
+		BaseShape a(ShapeGenerator::gear(50, 10), 0, 0, 1, 0, Vec3DFloat(255, 0, 0));
+		shapes.emplace_back(a);
+	}
+	{
+		BaseShape a(ShapeGenerator::gear(50, 10), Constants::Window::screenWidth/4, Constants::Window::screenHeight/4, 1, 0, Vec3DFloat(0, 255, 0));
+		shapes.emplace_back(a);
+	}
+	{
+		BaseShape a(ShapeGenerator::rectangle(100, 10), Constants::Window::screenWidth / 3, Constants::Window::screenHeight * 0.75, 1, 0, Vec3DFloat(0, 0, 255));
+		shapes.emplace_back(a);
+	}
+	{
+		BaseShape a(ShapeGenerator::gear(100, 10), Constants::Window::screenWidth * 0.7, Constants::Window::screenHeight * 0.75, 1, 0, Vec3DFloat(0, 100, 100));
+		shapes.emplace_back(a);
+	}
+	{
+		BaseShape a(ShapeGenerator::gear(10, 10), Constants::Window::screenWidth * 0.2, Constants::Window::screenHeight * 0.4, 1, 0, Vec3DFloat(100, 400, 100));
+		shapes.emplace_back(a);
+	}
+	{
+		BaseShape a(ShapeGenerator::gear(100, 10), Constants::Window::screenWidth * 0.1, Constants::Window::screenHeight * 0.7, 1, 0, Vec3DFloat(100, 100, 100));
+		shapes.emplace_back(a);
+	}
+	{
+		BaseShape a(ShapeGenerator::gear(100, 10), Constants::Window::screenWidth * 0.8, Constants::Window::screenHeight * 0.1, 1, 0, Vec3DFloat(100, 100, 100));
+		shapes.emplace_back(a);
+	}
 	camera = std::unique_ptr<Camera>(new Camera(shapes, 0, 0, 1, 0));
 
 	glutKeyboardFunc(handleKeyboardEvent);
@@ -53,19 +79,19 @@ void Application::render() {
 
 void Application::update() {
 	if (keyEvents[leftButton]==true) {
-		camera->addTransformX(-1*Camera::cameraTranformSpeed);
+		camera->addTransform(-1*Camera::cameraTranformSpeed,0);
 		keyEvents[leftButton] = false;
 	}
 	if (keyEvents[rightButton]==true) {
-		camera->addTransformX(Camera::cameraTranformSpeed);
+		camera->addTransform(Camera::cameraTranformSpeed,0);
 		keyEvents[rightButton] = false;
 	}
 	if (keyEvents[forwardButton] == true) {
-		camera->addTransformY(1 * Camera::cameraTranformSpeed);
+		camera->addTransform(0,1 * Camera::cameraTranformSpeed);
 		keyEvents[forwardButton] = false;
 	}
 	if (keyEvents[backwardButton] == true) {
-		camera->addTransformY(-1 * Camera::cameraTranformSpeed);
+		camera->addTransform(0,-1 * Camera::cameraTranformSpeed);
 		keyEvents[backwardButton] = false;
 	}
 	if (keyEvents[rotationRightButton] == true) {
@@ -92,7 +118,7 @@ void Application::notifyKeyIsPressed(Application::Buttons keyEvent)
 	keyEvents[keyEvent] = true;
 }
 
-std::unique_ptr<Application>& Application::getInstance()
+Application* Application::getInstance()
 {
 	return Application::instance;
 }

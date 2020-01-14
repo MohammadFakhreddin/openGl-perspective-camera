@@ -5,7 +5,7 @@
 
 class Camera {
 public:
-	static constexpr float cameraTranformSpeed = 3;
+	static constexpr float cameraTranformSpeed = 10;
 	static constexpr float cameraRotationSpeed = 0.1f;
 	static constexpr float cameraScaleSpeed = 0.05f;
 	Camera();
@@ -17,8 +17,7 @@ public:
 	float getTransformY() const;
 	float getRotationValue() const;
 	float getScaleValue() const;
-	void addTransformX(float);
-	void addTransformY(float);
+	void addTransform(float valueX,float valueY);
 	void addRotation(float);
 	void addScale(float);
 private:

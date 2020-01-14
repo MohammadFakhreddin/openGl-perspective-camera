@@ -22,9 +22,9 @@ public:
 	void render();
 	void update();
 	void notifyKeyIsPressed(Application::Buttons);
-	static std::unique_ptr<Application>& getInstance();
+	static Application* getInstance();
 private:
 	std::unique_ptr<Camera> camera;
-	static std::unique_ptr<Application> instance;
+	static Application* instance;
 	std::unordered_map<Application::Buttons,bool> keyEvents;
 };
