@@ -7,22 +7,17 @@
 template<typename T>
 T constexpr _piTemplate = (T)3.14159265358979323846264338327950288419;
 
-class Constants {
-public:
-	class Math {
-	public:
-
+namespace Constants {
+	namespace Math {
 		static constexpr float piFloat = _piTemplate<float>;
 		static constexpr double piDouble = _piTemplate<double>;
 	};
-	class Window {
-	public:
+	namespace Window {
 		static constexpr char appName[] = "Perspective camera";
 		static constexpr int screenWidth = 800;
 		static constexpr int screenHeight = 600;
 	};
-	class System {
-	public:
+	namespace System {
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
 		//define something for Windows (32-bit and 64-bit, this part is common)
 #ifdef _WIN64

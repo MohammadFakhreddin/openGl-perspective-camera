@@ -2,7 +2,6 @@
 
 #include "../camera/Camera.h"
 #include <memory>
-#include <gainput/gainput.h>
 #include <unordered_map>
 
 class Application {

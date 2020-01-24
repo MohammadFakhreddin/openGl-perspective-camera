@@ -3,6 +3,7 @@
 #include "Constants.h"
 #include <memory>
 #include "application/Application.h"
+#include <iostream>
 
 std::unique_ptr<Application> application;
 
@@ -34,10 +35,12 @@ int main(int argc, char** argv) {
 #ifdef __DESKTOP__
 	unsigned int realScreenHeight = 0;
 	unsigned int realScreenWidth = 0;
+    std::cout<<"Bootttttt"<<std::endl;
 	ScreenSize::getScreenResolution(
 		realScreenWidth,
 		realScreenHeight
 	);
+    std::cout<<"ScreenSize width:"<<realScreenWidth<<" height:"<<realScreenHeight<<std::endl;
     glutInitWindowSize(Constants::Window::screenWidth,Constants::Window::screenHeight);
     glutInitWindowPosition(
             (int)(realScreenWidth/2 - Constants::Window::screenWidth/2),

@@ -56,3 +56,9 @@ Win32
 Makefile
 *.cbp
 settings.json
+
+.DS_Store
+
+*.o
+
+perspective_camera_open_gl
